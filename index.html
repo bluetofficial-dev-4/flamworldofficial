@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[🔥] FlamWorld WEB</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0402;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+            body::before {
+                content: '';
+                position: absolute;
+                width: 350px;
+                height: 350px;
+                background: radial-gradient(circle, rgba(255, 69, 0, 0.25) 0%, rgba(0,0,0,0) 70%);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1;
+                pointer-events: none;
+                animation: pulse 4s infinite alternate;
+            }
+
+        .brand-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            background: linear-gradient(135deg, #ff3300 0%, #ff8800 50%, #ffcc00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 68, 0, 0.4), 0 0 40px rgba(255, 136, 0, 0.2);
+            animation: fire-glow 2s infinite alternate;
+        }
+
+        .ip-container {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 68, 0, 0.05);
+            border: 2px solid #ff4500;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.1);
+        }
+
+            .ip-container:hover {
+                transform: scale(1.03);
+                border-color: #ff8800;
+                background: rgba(255, 68, 0, 0.1);
+                box-shadow: 0 0 25px rgba(255, 69, 0, 0.3);
+            }
+
+        .ip-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .ip-status {
+            margin-left: 15px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            background: #ff4500;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .timer-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff8800;
+            font-weight: 600;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ffffff 0%, #ff8800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 136, 0, 0.3);
+        }
+
+            .timer-display.now {
+                font-size: 3.5rem;
+                background: linear-gradient(135deg, #ff3300 0%, #ffcc00 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 0 25px rgba(255, 51, 0, 0.8);
+                animation: pulse 0.5s infinite alternate;
+            }
+
+        .details-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+
+            .details-btn:hover {
+                border-color: #ff4500;
+                background: rgba(255, 68, 0, 0.1);
+                box-shadow: 0 0 15px rgba(255, 69, 0, 0.2);
+                color: #ff8800;
+            }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+            .modal-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+        .modal-window {
+            background: #110703;
+            border: 2px solid #ff4500;
+            box-shadow: 0 0 35px rgba(255, 69, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+            box-sizing: border-box;
+        }
+
+        .modal-overlay.active .modal-window {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .modal-close:hover {
+                color: #ff4500;
+            }
+
+        .modal-content {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-header {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin: 0;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(135deg, #ffffff 0%, #ff4500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ff8800;
+            margin: 0;
+        }
+
+        .modal-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(0, 0) scale(0.98);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1.02);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fire-glow {
+            0% {
+                filter: drop-shadow(0 0 15px rgba(255, 51, 0, 0.6));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 25px rgba(255, 136, 0, 0.9));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 2.2rem;
+            }
+
+            .ip-text {
+                font-size: 1rem;
+            }
+
+            .timer-display {
+                font-size: 1.8rem;
+            }
+
+                .timer-display.now {
+                    font-size: 2.5rem;
+                }
+
+            .modal-window {
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-container">
+        <h1 class="title">[🔥] FlamWorld WEB</h1>
+
+        <p class="subtitle-main">Minecraft v1.21.11 server. Let's play!</p>
+
+        <div class="ip-container" onclick="copyIP()">
+            <span class="ip-text" id="server-ip">flamworld.aternos.me</span>
+            <span class="ip-status" id="status-badge">Copy</span>
+        </div>
+
+        <div class="timer-container">
+            <span class="timer-label">Time until update</span>
+            <div class="timer-display" id="countdown-timer">???</div>
+            <button class="details-btn" onclick="openModal()">More Details</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-window">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-content">
+                <span class="modal-header">About Update</span>
+
+                <!-- МЕНЯЙ ТИТУЛ ТУТ -->
+                <h2 class="modal-title">Red vs Blue Event</h2>
+                <!-- МЕНЯЙ САБТИТУЛ ТУТ -->
+                <h3 class="modal-subtitle">PvP</h3>
+
+                <!-- МЕНЯЙ ОПИСАНИЕ ТУТ -->
+                <p class="modal-description">
+                    - PvP event! Fight and earn various rewards!<br>
+                    • Event tutorial:<br><br>
+
+                    Kill players in the arena &rarr; <br>
+                    Collect points (1 killed player = 1 team point) &rarr; <br>
+                    Trade points from upgrades in PvP mode lobby &rarr; <br>
+                    Win battles to earn points for the entire team, and receive rewards via admin abuse at the end of the event<br><br>
+
+                    - New prefixes (Red and Blue)<br>
+                    - New "Team" pass<br>
+                    - Battle it out! Take part in the event to win generous prizes and enjoy your favorite mode :)<br><br>
+
+                    General changes:<br>
+                    - Preparation for Admin Abuse (at the end of the event)<br>
+                    - SALE! Promo code "FREEDONATE" for a 100% discount on products in our VK!
+                </p>
+
+            </div>
+        </div>
+    </div>
+    <script>
+            /* МЕНЯЙ ДАТУ ТУТ (В формате ГГГГ-ММ-ДДTHH:MM:SS). Если оставить пусто "" — будут знаки ??? */
+            const targetDateStr =  "2026-10-18T19:00:00";
+
+            function copyIP() {
+                const ipText = document.getElementById('server-ip').innerText;
+                const badge = document.getElementById('status-badge');
+
+                navigator.clipboard.writeText(ipText).then(() => {
+                    badge.innerText = 'Copied!';
+                    badge.style.background = '#27ae60';
+
+                    setTimeout(() => {
+                        badge.innerText = 'Copy';
+                        badge.style.background = '#ff4500';
+                    }, 2000);
+                });
+            }
+
+            function openModal() {
+                document.getElementById('modal-overlay').classList.add('active');
+            }
+
+            function closeModal() {
+                document.getElementById('modal-overlay').classList.remove('active');
+            }
+
+            function closeModalOutside(event) {
+                if (event.target === document.getElementById('modal-overlay')) {
+                    closeModal();
+                }
+            }
+
+            function updateTimer() {
+                const timerElement = document.getElementById('countdown-timer');
+
+                if (!targetDateStr || targetDateStr.trim() === "") {
+                    timerElement.innerText = "???";
+                    timerElement.classList.remove('now');
+                    return;
+                }
+
+                const targetTime = new Date(targetDateStr + "+07:00").getTime();
+
+                function tick() {
+                    const now = new Date().getTime();
+                    const difference = targetTime - now;
+
+                    if (difference <= 0) {
+                        timerElement.innerText = "NOW!";
+                        timerElement.classList.add('now');
+                        clearInterval(intervalId);
+                        return;
+                    }
+
+                    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    const d = days < 10 ? "0" + days : days;
+                    const h = hours < 10 ? "0" + hours : hours;
+                    const m = minutes < 10 ? "0" + minutes : minutes;
+                    const s = seconds < 10 ? "0" + seconds : seconds;
+
+                    timerElement.innerText = `${d}:${h}:${m}:${s}`;
+                    timerElement.classList.remove('now');
+                }
+
+                tick();
+                const intervalId = setInterval(tick, 1000);
+            }
+
+            updateTimer();
+    </script>
+
+</body>
+</html>
