@@ -43,6 +43,7 @@
             gap: 25px;
             width: 90%;
             max-width: 600px;
+            padding: 30px 0;
         }
 
         .title {
@@ -152,6 +153,59 @@
                 color: #ff8800;
             }
 
+        /* ===== EVENT BLOCK ===== */
+        .event-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+            padding: 24px 20px;
+            background: rgba(255, 68, 0, 0.04);
+            border: 1px solid rgba(255, 69, 0, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(255, 69, 0, 0.1);
+        }
+
+        .event-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #ff4500;
+            padding: 4px 12px;
+            border-radius: 4px;
+            box-shadow: 0 0 12px rgba(255, 69, 0, 0.5);
+        }
+
+        .event-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 4px 0 0;
+            background: linear-gradient(135deg, #ffffff 0%, #ff4500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .event-tagline {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 0 6px;
+        }
+
+        .event-container .timer-container {
+            margin-top: 0;
+        }
+
+        .event-container .timer-display.now {
+            font-size: 2.4rem;
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -180,6 +234,8 @@
             box-shadow: 0 0 35px rgba(255, 69, 0, 0.3);
             width: 90%;
             max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
             border-radius: 12px;
             padding: 30px;
             position: relative;
@@ -244,6 +300,59 @@
             margin: 0;
         }
 
+        .monitoring-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 68, 0, 0.02);
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 6px;
+            min-width: 200px;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.05);
+        }
+
+        .monitoring-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff8800;
+            font-weight: 600;
+        }
+
+        .monitoring-data {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #7f8c8d;
+            box-shadow: 0 0 8px #7f8c8d;
+            transition: all 0.3s ease;
+        }
+
+            .status-dot.online {
+                background: #27ae60;
+                box-shadow: 0 0 10px #2cc771;
+            }
+
+            .status-dot.offline {
+                background: #c0392b;
+                box-shadow: 0 0 10px #e74c3c;
+            }
+
+        .online-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+
         @keyframes pulse {
             0% {
                 transform: translate(0, 0) scale(0.98);
@@ -283,6 +392,14 @@
                     font-size: 2.5rem;
                 }
 
+            .event-name {
+                font-size: 1.4rem;
+            }
+
+            .event-container .timer-display.now {
+                font-size: 1.6rem;
+            }
+
             .modal-window {
                 padding: 20px;
             }
@@ -291,10 +408,188 @@
                 font-size: 1.5rem;
             }
         }
+
+        .preloader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050201;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, pointer-events 0.6s ease;
+        }
+
+            .preloader-overlay.hide {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .preloader-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #ff3300 0%, #ff8800 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-pulse 2s infinite alternate;
+        }
+
+        .spinner-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .win-spinner {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+
+            .win-spinner .dot {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                background: #ff4500;
+                border-radius: 50%;
+                box-shadow: 0 0 10px #ff4500;
+                opacity: 0;
+                transform: rotate(225deg);
+                animation: win-orbit 5.5s infinite;
+                top: 0;
+                left: 22px;
+                transform-origin: 3px 25px;
+            }
+
+                .win-spinner .dot:nth-child(2) {
+                    animation-delay: 240ms;
+                }
+
+                .win-spinner .dot:nth-child(3) {
+                    animation-delay: 480ms;
+                }
+
+                .win-spinner .dot:nth-child(4) {
+                    animation-delay: 720ms;
+                }
+
+                .win-spinner .dot:nth-child(5) {
+                    animation-delay: 960ms;
+                }
+
+        .progress-bar-bg {
+            width: 320px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 69, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .progress-bar-fill {
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff3300, #ff8800);
+            box-shadow: 0 0 12px #ff4500;
+        }
+
+        .progress-percentage {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ff8800;
+            font-family: monospace;
+        }
+
+        @keyframes text-pulse {
+            0% {
+                transform: scale(0.97);
+                filter: drop-shadow(0 0 8px rgba(255,51,0,0.3));
+            }
+
+            100% {
+                transform: scale(1.03);
+                filter: drop-shadow(0 0 18px rgba(255,136,0,0.6));
+            }
+        }
+
+        @keyframes win-orbit {
+            0% {
+                transform: rotate(180deg);
+                opacity: 1;
+                animation-timing-function: ease-out;
+            }
+
+            7% {
+                transform: rotate(300deg);
+                animation-timing-function: linear;
+            }
+
+            30% {
+                transform: rotate(410deg);
+                animation-timing-function: ease-in-out;
+            }
+
+            39% {
+                transform: rotate(645deg);
+                animation-timing-function: linear;
+            }
+
+            70% {
+                transform: rotate(770deg);
+                opacity: 1;
+                animation-timing-function: ease-out;
+            }
+
+            75% {
+                transform: rotate(900deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(900deg);
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 
-<body>
+    <div class="preloader-overlay" id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-text" id="loader-text">Loading FlamWorld WEB...</div>
+            <div class="spinner-container" id="spinner-box" style="display: none;">
+                <div class="win-spinner">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-percentage" id="progress-percent">20%</div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="brand-container">
         <h1 class="title">[🔥] FlamWorld WEB</h1>
 
@@ -305,41 +600,78 @@
             <span class="ip-status" id="status-badge">Copy</span>
         </div>
 
-        <div class="timer-container">
-            <span class="timer-label">Time until update</span>
-            <div class="timer-display" id="countdown-timer">???</div>
-            <button class="details-btn" onclick="openModal()">More Details</button>
+        <div class="monitoring-container">
+        <span class="monitoring-title">Online Monitoring</span>
+        <div class="monitoring-data">
+            <span class="status-dot" id="online-dot"></span>
+            <span class="online-text" id="online-count">Loading...</span>
         </div>
     </div>
 
-    <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="timer-container">
+            <span class="timer-label">Time until update</span>
+            <div class="timer-display" id="countdown-timer">???</div>
+            <button class="details-btn" onclick="openModal('modal-overlay')">More Details</button>
+        </div>
+
+        <!-- EVENT BLOCK -->
+        <div class="event-container">
+            <span class="event-badge">Event</span>
+            <!-- CHANGE EVENT NAME HERE -->
+            <h2 class="event-name">???</h2>
+            <!-- CHANGE EVENT TAGLINE HERE -->
+            <p class="event-tagline">???</p>
+
+            <div class="timer-container">
+                <span class="timer-label">Time until event</span>
+                <div class="timer-display" id="event-timer">???</div>
+                <button class="details-btn" onclick="openModal('event-modal-overlay')">Event Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPDATE MODAL -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event, 'modal-overlay')">
         <div class="modal-window">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <span class="modal-close" onclick="closeModal('modal-overlay')">&times;</span>
             <div class="modal-content">
                 <span class="modal-header">About Update</span>
 
                 <!-- МЕНЯЙ ТИТУЛ ТУТ -->
-                <h2 class="modal-title">Red vs Blue Event</h2>
+                <h2 class="modal-title">v1.0</h2>
                 <!-- МЕНЯЙ САБТИТУЛ ТУТ -->
-                <h3 class="modal-subtitle">PvP</h3>
+                <h3 class="modal-subtitle">Release</h3>
 
                 <!-- МЕНЯЙ ОПИСАНИЕ ТУТ -->
                 <p class="modal-description">
-                    - PvP event! Fight and earn various rewards!<br>
-                    • Event tutorial:<br><br>
+                    - Release<br>
+                    - New Event block on the main page with its own countdown timer<br>
+                    - “Event Details” window with a full description of the event<br>
+                    - When the event starts, the timer shows “HAPPENING NOW!”<br>
+                    - Fixed the countdown timers (no more loading issues)<br>
+                    - Fixed the Online Monitoring connection to the server<br>
+                    - Faster and smoother loading screen
+                </p>
 
-                    Kill players in the arena &rarr; <br>
-                    Collect points (1 killed player = 1 team point) &rarr; <br>
-                    Trade points from upgrades in PvP mode lobby &rarr; <br>
-                    Win battles to earn points for the entire team, and receive rewards via admin abuse at the end of the event<br><br>
+            </div>
+        </div>
+    </div>
 
-                    - New prefixes (Red and Blue)<br>
-                    - New "Team" pass<br>
-                    - Battle it out! Take part in the event to win generous prizes and enjoy your favorite mode :)<br><br>
+    <!-- EVENT MODAL -->
+    <div class="modal-overlay" id="event-modal-overlay" onclick="closeModalOutside(event, 'event-modal-overlay')">
+        <div class="modal-window">
+            <span class="modal-close" onclick="closeModal('event-modal-overlay')">&times;</span>
+            <div class="modal-content">
+                <span class="modal-header">About Event</span>
 
-                    General changes:<br>
-                    - Preparation for Admin Abuse (at the end of the event)<br>
-                    - SALE! Promo code "FREEDONATE" for a 100% discount on products in our VK!
+                <!-- CHANGE EVENT MODAL TITLE HERE -->
+                <h2 class="modal-title">???</h2>
+                <!-- CHANGE EVENT MODAL SUBTITLE HERE -->
+                <h3 class="modal-subtitle">???</h3>
+
+                <!-- CHANGE EVENT DESCRIPTION HERE -->
+                <p class="modal-description">
+                    ???
                 </p>
 
             </div>
@@ -347,7 +679,10 @@
     </div>
     <script>
             /* МЕНЯЙ ДАТУ ТУТ (В формате ГГГГ-ММ-ДДTHH:MM:SS). Если оставить пусто "" — будут знаки ??? */
-            const targetDateStr =  "2026-10-18T19:00:00";
+            const targetDateStr =  "2026-10-25T19:00:00";
+
+            /* CHANGE EVENT DATE HERE (format YYYY-MM-DDTHH:MM:SS). Leave empty "" to show ??? */
+            const eventDateStr = "";
 
             function copyIP() {
                 const ipText = document.getElementById('server-ip').innerText;
@@ -364,37 +699,39 @@
                 });
             }
 
-            function openModal() {
-                document.getElementById('modal-overlay').classList.add('active');
+            function openModal(id) {
+                document.getElementById(id).classList.add('active');
             }
 
-            function closeModal() {
-                document.getElementById('modal-overlay').classList.remove('active');
+            function closeModal(id) {
+                document.getElementById(id).classList.remove('active');
             }
 
-            function closeModalOutside(event) {
-                if (event.target === document.getElementById('modal-overlay')) {
-                    closeModal();
+            function closeModalOutside(event, id) {
+                if (event.target === document.getElementById(id)) {
+                    closeModal(id);
                 }
             }
 
-            function updateTimer() {
-                const timerElement = document.getElementById('countdown-timer');
+            function startCountdown(dateStr, elementId, endText = "NOW!") {
+                const timerElement = document.getElementById(elementId);
 
-                if (!targetDateStr || targetDateStr.trim() === "") {
+                if (!dateStr || dateStr.trim() === "") {
                     timerElement.innerText = "???";
                     timerElement.classList.remove('now');
                     return;
                 }
 
-                const targetTime = new Date(targetDateStr + "+07:00").getTime();
+                const targetTime = new Date(dateStr + "+07:00").getTime();
+
+                let intervalId = null;
 
                 function tick() {
                     const now = new Date().getTime();
                     const difference = targetTime - now;
 
                     if (difference <= 0) {
-                        timerElement.innerText = "NOW!";
+                        timerElement.innerText = endText;
                         timerElement.classList.add('now');
                         clearInterval(intervalId);
                         return;
@@ -415,10 +752,86 @@
                 }
 
                 tick();
-                const intervalId = setInterval(tick, 1000);
+                if (intervalId === null && targetTime - new Date().getTime() > 0) {
+                    intervalId = setInterval(tick, 1000);
+                }
             }
 
-            updateTimer();
+            startCountdown(targetDateStr, 'countdown-timer');
+            startCountdown(eventDateStr, 'event-timer', "HAPPENING NOW!");
+
+        function checkServerOnline() {
+            const ip = "flamworld.aternos.me";
+            const textElement = document.getElementById("online-count");
+            const dotElement = document.getElementById("online-dot");
+
+            fetch(`https://api.mcsrvstat.us/3/${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.online) {
+                        textElement.innerText = `${data.players.online} / ${data.players.max}`;
+                        dotElement.className = "status-dot online";
+                    } else {
+                        textElement.innerText = "Offline";
+                        dotElement.className = "status-dot offline";
+                    }
+                })
+                .catch(() => {
+                    textElement.innerText = "Offline";
+                    dotElement.className = "status-dot offline";
+                });
+        }
+
+        checkServerOnline();
+        setInterval(checkServerOnline, 30000);
+
+        (function () {
+            let currentProgress = 20;
+            let isWindowLoaded = false;
+            let progressInterval = null;
+
+            const preloader = document.getElementById("preloader");
+            const loaderText = document.getElementById("loader-text");
+            const spinnerBox = document.getElementById("spinner-box");
+            const progressFill = document.getElementById("progress-fill");
+            const progressPercent = document.getElementById("progress-percent");
+
+            window.onload = function () {
+                isWindowLoaded = true;
+            };
+
+            setTimeout(() => {
+                if (loaderText) loaderText.innerText = "Connecting to FlamWorld...";
+                if (spinnerBox) spinnerBox.style.display = "flex";
+
+                progressInterval = setInterval(() => {
+                    if (currentProgress < 90) {
+                        currentProgress += Math.floor(Math.random() * 8) + 2;
+                        if (currentProgress > 90) currentProgress = 90;
+                        updateDisplay(currentProgress);
+                    }
+
+                    if (isWindowLoaded && currentProgress >= 90) {
+                        clearInterval(progressInterval);
+                        currentProgress = 100;
+                        updateDisplay(currentProgress);
+
+                        setTimeout(() => {
+                            if (preloader) preloader.classList.add("hide");
+                        }, 500);
+                    }
+                }, 80);
+
+            }, 5000);
+
+            function updateDisplay(val) {
+                if (progressFill) progressFill.style.width = val + "%";
+                if (progressPercent) progressPercent.innerText = val + "%";
+            }
+        })();
+
+
+
     </script>
 
 </body>
